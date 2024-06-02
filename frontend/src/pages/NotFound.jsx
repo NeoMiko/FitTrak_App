@@ -1,6 +1,6 @@
 function NotFound() {
     return <div>
-        <hi>404 Not Found</hi>
+        <h1>404 Not Found</h1>
         <p>Strona której szukasz nie istnieje</p>
     </div>
 }
