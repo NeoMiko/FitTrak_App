@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import Note from "../components/Note"
-import "../styles/Home.css"
+import Note from "../components/Note";
+import ProfileForm from "../components/ProfileForm";
+import "../styles/Home.css";
 import React from "react";
 
 function Home() {
     const [notes, setNotes] = useState([]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
+    const [profile, setProfile] = useState({
+        age: "",
+        weight: "",
+        height: "",
+        activity: ""
+    });
 
     useEffect(() => {
         getNotes();
+        getProfile();
     }, []);
 
     const getNotes = () => {
@@ -19,6 +27,17 @@ function Home() {
             .then((res) => res.data)
             .then((data) => {
                 setNotes(data);
+                console.log(data);
+            })
+            .catch((err) => alert(err));
+    };
+
+    const getProfile = () => {
+        api
+            .get("/api/profile/")
+            .then((res) => res.data)
+            .then((data) => {
+                setProfile(data);
                 console.log(data);
             })
             .catch((err) => alert(err));
@@ -49,6 +68,14 @@ function Home() {
 
     return (
         <div>
+            <div className="profile-container">
+                <h2>Twój Profil</h2>
+                <p>Wiek: {profile.age}</p>
+                <p>Waga: {profile.weight} kg</p>
+                <p>Wysokość: {profile.height} cm</p>
+                <p>Aktywność: {profile.activity}</p>
+                <ProfileForm />
+            </div>
             <div>
                 <h2>Notes</h2>
                 {notes.map((note) => (
